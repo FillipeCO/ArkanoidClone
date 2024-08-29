@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro; // Para acessar o TextMeshProUGUI
+using TMPro;
 
 public class BallController : MonoBehaviour
 {
@@ -11,6 +11,7 @@ public class BallController : MonoBehaviour
     private bool movimentoIniciado = false;
     private Vector3 posicaoInicial = new Vector3(0f, -4.58f, 0f); // Posição inicial específica
     private BallsCounter ballsCounter; // Referência para o contador de bolas
+    public float anguloRebateExtra = 15f; // Ângulo extra para aumentar a angulação do rebote
 
     private void Start()
     {
@@ -69,12 +70,19 @@ public class BallController : MonoBehaviour
     void RebaterNaSuperficieAcumulandoForca(Vector2 normal)
     {
         direcao = Vector2.Reflect(direcao, normal).normalized;
+
+        // Aplica um ângulo extra ao rebote para aumentar a angulação
+        direcao = Quaternion.Euler(0f, 0f, Random.Range(-anguloRebateExtra, anguloRebateExtra)) * direcao;
+
         velocidadeInicial += forcaRebate; // Adiciona força de rebate
     }
 
-    void RebaterNaSuperficie(Vector2 normal) 
+    void RebaterNaSuperficie(Vector2 normal)
     {
         direcao = Vector2.Reflect(direcao, normal).normalized;
+
+        // Aplica um ângulo extra ao rebote para aumentar a angulação
+        direcao = Quaternion.Euler(0f, 0f, Random.Range(-anguloRebateExtra, anguloRebateExtra)) * direcao;
     }
 
     void ReiniciarBola()

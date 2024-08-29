@@ -29,7 +29,7 @@ public class GameOverButtonController : MonoBehaviour
         }
 
         // Executar a ação do botão selecionado ao apertar Espaço ou Y
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump"))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump") || Input.GetMouseButtonDown(0))
         {
             if (selectedButton == restartButton)
             {
