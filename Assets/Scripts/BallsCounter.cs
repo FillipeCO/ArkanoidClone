@@ -31,7 +31,7 @@ public class BallsCounter : MonoBehaviour
 
     private void AtualizarTextoBolas()
     {
-        textoBolas.text = "Balls: " + quantidadeBolas.ToString();
+        textoBolas.text = "Balls:" + quantidadeBolas.ToString();
     }
 
     private void AvancarParaTelaDeDerrota()

@@ -1,7 +1,6 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameOverButtonController : MonoBehaviour
 {
@@ -28,7 +27,7 @@ public class GameOverButtonController : MonoBehaviour
             SelecionarBotao(quitButton);
         }
 
-        // Executar a ação do botão selecionado ao apertar Espaço ou Y
+        // Executar a ação do botão selecionado ao apertar Espaço, Y, ou clicar com o botão esquerdo do mouse
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump") || Input.GetMouseButtonDown(0))
         {
             if (selectedButton == restartButton)
@@ -42,10 +41,22 @@ public class GameOverButtonController : MonoBehaviour
         }
     }
 
+    // Seleciona o botão e garante que apenas um esteja selecionado por vez
     void SelecionarBotao(Button botao)
     {
+        if (selectedButton != null)
+        {
+            selectedButton.OnDeselect(null); // Deseleciona o botão anterior
+        }
+
         selectedButton = botao;
         selectedButton.Select();
+    }
+
+    // Chamado quando o mouse entra em um botão
+    public void OnMouseEnter(Button botao)
+    {
+        SelecionarBotao(botao);
     }
 
     public void ReiniciarJogo()

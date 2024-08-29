@@ -13,6 +13,12 @@ public class BallController : MonoBehaviour
     private BallsCounter ballsCounter; // Referência para o contador de bolas
     public float anguloRebateExtra = 15f; // Ângulo extra para aumentar a angulação do rebote
 
+    // Adicione referências para os efeitos sonoros
+    public AudioClip paddleHitSound;
+    public AudioClip brickHitSound;
+    public AudioClip endwallkHitSound;
+    private AudioSource audioSource;
+
     private void Start()
     {
         direcao = Vector2.up;
@@ -24,6 +30,9 @@ public class BallController : MonoBehaviour
         {
             Debug.LogError("BallsCounter não encontrado na cena.");
         }
+
+        // Adicionar o componente AudioSource
+        audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     void Update()
@@ -51,8 +60,16 @@ public class BallController : MonoBehaviour
         if (collision.gameObject.CompareTag("Brick"))
         {
             RebaterNaSuperficieAcumulandoForca(collision.GetContact(0).normal);
+            // Tocar som de colisão com Brick
+            PlaySound(brickHitSound);
         }
-        else if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Paddle"))
+        else if (collision.gameObject.CompareTag("Paddle"))
+        {
+            RebaterNaSuperficie(collision.GetContact(0).normal);
+            // Tocar som de colisão com Paddle
+            PlaySound(paddleHitSound);
+        }
+        else if (collision.gameObject.CompareTag("Wall"))
         {
             RebaterNaSuperficie(collision.GetContact(0).normal);
         }
@@ -64,6 +81,7 @@ public class BallController : MonoBehaviour
             {
                 ballsCounter.DecrementarBolas();
             }
+            PlaySound(endwallkHitSound);
         }
     }
 
@@ -93,5 +111,13 @@ public class BallController : MonoBehaviour
         direcao = Vector2.up;
         velocidadeInicial = 10f; // Redefine a velocidade para a inicial
         movimentoIniciado = false;
+    }
+
+    void PlaySound(AudioClip clip)
+    {
+        if (clip != null)
+        {
+            audioSource.PlayOneShot(clip);
+        }
     }
 }
