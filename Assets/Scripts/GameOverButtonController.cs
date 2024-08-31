@@ -7,6 +7,7 @@ public class GameOverButtonController : MonoBehaviour
     public Button restartButton; // Botão RESTART
     public Button quitButton;    // Botão QUIT GAME
     private Button selectedButton; // Botão atualmente selecionado
+    private ScoreController scoreController;// Referência ao ScoreController
 
     void Start()
     {
@@ -32,6 +33,8 @@ public class GameOverButtonController : MonoBehaviour
         {
             if (selectedButton == restartButton)
             {
+                scoreController = FindObjectOfType<ScoreController>();
+                scoreController.AtualizarPontuacao(scoreController.points = 0);
                 ReiniciarJogo();
             }
             else if (selectedButton == quitButton)

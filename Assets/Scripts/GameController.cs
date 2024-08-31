@@ -1,24 +1,33 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement; // Para carregar a próxima cena
+using UnityEngine.SceneManagement;
+using UnityEngine.UIElements; // Para carregar a próxima cena
 
 public class GameController : MonoBehaviour
 {
-    public List<GameObject> bricks; // Lista para armazenar todos os objetos Brick
-    public SceneAsset proximaCena; // Referência visual para a próxima cena
+    public List<GameObject> bricks;
+    public SceneAsset proximaCena;
+    public int remainingBalls;
+    public static int points;
+    private ScoreController scoreController;
 
     private void Start()
     {
-        // Inicializar a lista e encontrar todos os objetos com a tag "Brick" na cena
         bricks = new List<GameObject>(GameObject.FindGameObjectsWithTag("Brick"));
+        scoreController = FindObjectOfType<ScoreController>();
     }
 
     private void Update()
     {
-        // Verifica se todos os Bricks foram destruídos
         if (bricks.Count == 0)
         {
+            points = scoreController.points;
+            remainingBalls = FindObjectOfType<BallsCounter>().quantidadeBolas;
+
+            // Salva os dados no ScoreController
+            ScoreController.Instance.SaveScoreData(remainingBalls, points);
+
             AvancarParaProximoNivel();
         }
     }

@@ -5,27 +5,27 @@ using TMPro;
 
 public class DestroyBrick : MonoBehaviour
 {
-    // Variável estática para armazenar a pontuação
-    public static int pontuacao = 0;
-
     // Referência ao componente TextMeshPro
     private TextMeshProUGUI textoPontuacao;
 
-    // Referência ao GameController
-    private GameController gameController;
+    // Referência ao ScoreController
+    private ScoreController scoreController;
 
     private void Start()
     {
         // Encontrar o elemento de texto no Canvas
         textoPontuacao = GameObject.Find("Points").GetComponent<TextMeshProUGUI>();
-        AtualizarTextoPontuacao();
 
-        // Encontrar o GameController na cena
-        gameController = FindObjectOfType<GameController>();
+        // Encontrar o ScoreController na cena
+        scoreController = FindObjectOfType<ScoreController>();
 
-        if (gameController == null)
+        if (scoreController == null)
         {
-            Debug.LogError("GameController not found in the scene.");
+            Debug.LogError("ScoreController not found in the scene.");
+        }
+        else
+        {
+            AtualizarTextoPontuacao();
         }
     }
 
@@ -35,10 +35,11 @@ public class DestroyBrick : MonoBehaviour
         if (collision.gameObject.CompareTag("Ball"))
         {
             // Adiciona 10 pontos
-            pontuacao += 10;
+            scoreController.AtualizarPontuacao(scoreController.points + 10);
             AtualizarTextoPontuacao(); // Atualiza o texto na tela
 
             // Notifica o GameController que o Brick foi destruído
+            GameController gameController = FindObjectOfType<GameController>();
             if (gameController != null)
             {
                 gameController.RemoverBrick(gameObject);
@@ -52,6 +53,9 @@ public class DestroyBrick : MonoBehaviour
     // Método para atualizar o texto da pontuação na tela
     private void AtualizarTextoPontuacao()
     {
-        textoPontuacao.text = "Score: " + pontuacao.ToString();
+        if (scoreController != null)
+        {
+            textoPontuacao.text = "Score: " + scoreController.points.ToString();
+        }
     }
 }
