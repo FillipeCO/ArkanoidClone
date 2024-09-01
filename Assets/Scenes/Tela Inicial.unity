@@ -466,8 +466,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textMeshPro: {fileID: 750100677}
   minScale: 1
-  maxScale: 1.5
-  speed: 1
+  maxScale: 1.1
+  speed: 0.2
 --- !u!1 &931346198
 GameObject:
   m_ObjectHideFlags: 0

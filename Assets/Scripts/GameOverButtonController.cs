@@ -49,11 +49,20 @@ public class GameOverButtonController : MonoBehaviour
     {
         if (selectedButton != null)
         {
-            selectedButton.OnDeselect(null); // Deseleciona o botão anterior
+            // Desseleciona o botão anterior
+            ColorBlock cb = selectedButton.colors;
+            cb.normalColor = cb.disabledColor; // Alterar o estado para o visual desabilitado
+            selectedButton.colors = cb;
         }
 
+        // Seleciona o novo botão
         selectedButton = botao;
         selectedButton.Select();
+
+        // Atualiza o visual para o estado highlighted
+        ColorBlock newCb = selectedButton.colors;
+        newCb.normalColor = newCb.highlightedColor; // Alterar o estado para o visual highlighted
+        selectedButton.colors = newCb;
     }
 
     // Chamado quando o mouse entra em um botão

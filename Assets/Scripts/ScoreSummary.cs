@@ -2,16 +2,22 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEditor;
+using System.Collections;
 
 public class ScoreSummary : MonoBehaviour
 {
     public TextMeshProUGUI scoreText; // Texto para mostrar a pontuação final
     public TextMeshProUGUI multiplierText; // Texto para mostrar o motivo da multiplicação
-    public SceneAsset proximaCena;
+    public AudioClip avancarSom;
+    private AudioSource audioSource;
+    public string proximaCena; // Nome da próxima cena
     private int finalScore;
+    public float delayAntesDeAvancar = 1.0f; // Tempo de atraso antes de avançar para a próxima cena
 
     void Start()
     {
+        audioSource = gameObject.AddComponent<AudioSource>();
+
         if (ScoreController.Instance != null)
         {
             // Acessa a pontuação e a quantidade de bolas restantes através da instância Singleton
@@ -22,7 +28,10 @@ public class ScoreSummary : MonoBehaviour
             finalScore = baseScore * remainingBalls;
 
             // Atualiza os textos na tela
-            scoreText.text = "Final Score: " + baseScore.ToString() + " X " + remainingBalls.ToString() + " Balls " + " = " + finalScore.ToString();
+            scoreText.text = "Score:" + "\n" + baseScore.ToString() + "\n" + "\n" +
+                 remainingBalls.ToString() + "X" + "\n" + "\n" +
+                 "Final Score:" + "\n" + finalScore.ToString();
+
             multiplierText.text = "Score X " + remainingBalls + " due to remaining balls.";
 
             ScoreController scoreController = FindObjectOfType<ScoreController>();
@@ -46,22 +55,45 @@ public class ScoreSummary : MonoBehaviour
         // Avançar para a próxima cena ao apertar Espaço ou Y no joystick
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump"))
         {
-            AvancarParaProximaCena();
+            StartCoroutine(AvancarParaProximaCena());
         }
     }
 
-    void AvancarParaProximaCena()
+    IEnumerator AvancarParaProximaCena()
     {
         if (proximaCena != null)
         {
-            // Obtém o índice da cena com base na referência do SceneAsset
-            string nomeCena = proximaCena.name;
-            ScoreController.Instance.points = finalScore;
-            SceneManager.LoadScene(nomeCena);
+            if (proximaCena != "Tela Inicial")
+            {
+                PlaySound(avancarSom); // Toca o som de avancar para a próxima tela
+
+                // Obtém o índice da cena com base na referência do SceneAsset
+                string nomeCena = proximaCena;
+                ScoreController.Instance.points = finalScore;
+
+                // Aguarda o tempo especificado antes de avançar
+                yield return new WaitForSeconds(delayAntesDeAvancar);
+                SceneManager.LoadScene(nomeCena);
+            }
+            if (proximaCena == "Tela Inicial")
+            {
+                ScoreController.Instance.points = 0;
+                SceneManager.LoadScene("Tela Inicial");
+            }
+
+
         }
         else
         {
             Debug.LogError("Proxima cena não definida!");
+        }
+    }
+
+    void PlaySound(AudioClip clip)
+    {
+        if (clip != null)
+        {
+            audioSource.PlayOneShot(clip);
         }
     }
 }

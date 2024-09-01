@@ -18,8 +18,26 @@ EditorBuildSettings:
     path: Assets/Scenes/Level 2.unity
     guid: 65801ac800f62a94dac3dda8294143d8
   - enabled: 1
-    path: Assets/Scenes/Fim.unity
-    guid: 8e8a2e9a78bf3cb4ba014928a9382e9d
+    path: Assets/Scenes/ContagemDePontos 2.unity
+    guid: 1ffa9ff51d7224f42964b20ac0de2bb4
+  - enabled: 1
+    path: Assets/Scenes/Level 3.unity
+    guid: 671270f8a890836439702d7570c5619a
+  - enabled: 1
+    path: Assets/Scenes/ContagemDePontos 3.unity
+    guid: 342e3350f0e16254facc2c0db7045c7c
+  - enabled: 1
+    path: Assets/Scenes/Level 4.unity
+    guid: 62c6f2e75e70d964bb61886b6c6e6614
+  - enabled: 1
+    path: Assets/Scenes/ContagemDePontos 4.unity
+    guid: 08113b0aa288c8c4db28f1a4d16684c4
+  - enabled: 1
+    path: Assets/Scenes/Level 5.unity
+    guid: 6ac601e7b10efcb4ba1e0f1a41e4e628
+  - enabled: 1
+    path: Assets/Scenes/ContagemDePontos 5.unity
+    guid: 6092c4e9047419f4f84231685204c536
   - enabled: 1
     path: Assets/Scenes/TelaDeDerrota.unity
     guid: a765487c23cc4b940bee7a56c89f5560

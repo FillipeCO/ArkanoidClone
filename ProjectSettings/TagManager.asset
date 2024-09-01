@@ -9,6 +9,7 @@ TagManager:
   - Wall
   - Brick
   - EndWall
+  - FallingBrick
   layers:
   - Default
   - TransparentFX
