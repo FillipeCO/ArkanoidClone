@@ -21,7 +21,7 @@ public class GameController : MonoBehaviour
         bricks = new List<GameObject>(GameObject.FindGameObjectsWithTag("Brick"));
         scoreController = FindObjectOfType<ScoreController>();
         pauseMenuUI.SetActive(false); // Esconde o menu de pausa inicialmente
-        selectedButton = restartButton; // Define o botão de reiniciar como o inicialmente selecionado
+        
     }
 
     private void Update()
@@ -35,12 +35,6 @@ public class GameController : MonoBehaviour
             ScoreController.Instance.SaveScoreData(remainingBalls, points);
 
             AvancarParaProximoNivel();
-        }
-
-        // Verifica se a tecla "R" foi pressionada
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ReiniciarJogo();
         }
 
         // Verifica se a tecla Esc ou Start no joystick foi pressionada para pausar o jogo
@@ -68,7 +62,7 @@ public class GameController : MonoBehaviour
                 SelecionarBotao(quitButton);
             }
 
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Space))
             {
                 if (selectedButton == restartButton)
                 {
@@ -99,7 +93,7 @@ public class GameController : MonoBehaviour
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f; // Para o tempo do jogo
         isPaused = true;
-        SelecionarBotao(restartButton); // Seleciona o botão de reiniciar por padrão
+        //SelecionarBotao(restartButton); // Seleciona o botão de reiniciar por padrão
     }
 
     // Retoma o jogo
@@ -150,6 +144,7 @@ public class GameController : MonoBehaviour
         scoreController = FindObjectOfType<ScoreController>();
         scoreController.AtualizarPontuacao(scoreController.points = 0);
         SceneManager.LoadScene("Level 1");
+        Debug.Log("Reiniciou");
     }
 
     // Sair do jogo
