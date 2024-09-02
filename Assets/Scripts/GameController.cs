@@ -138,7 +138,7 @@ public class GameController : MonoBehaviour
     }
 
     // Reiniciar o jogo
-    void ReiniciarJogo()
+    public void ReiniciarJogo()
     {
         Time.timeScale = 1f; // Retoma o tempo antes de reiniciar o jogo
         scoreController = FindObjectOfType<ScoreController>();
@@ -148,7 +148,7 @@ public class GameController : MonoBehaviour
     }
 
     // Sair do jogo
-    void SairDoJogo()
+    public void SairDoJogo()
     {
         Application.Quit();
     }

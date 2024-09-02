@@ -65,13 +65,24 @@ public class BallController : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Paddle"))
         {
-            RebaterNaSuperficie(collision.GetContact(0).normal);
+            RebaterNoPaddle(collision.GetContact(0).normal);
             // Tocar som de colisão com Paddle
             PlaySound(paddleHitSound);
         }
         else if (collision.gameObject.CompareTag("Wall"))
         {
-            RebaterNaSuperficie(collision.GetContact(0).normal);
+            // Pega o vetor normal da superfície
+            Vector2 surfaceNormal = collision.contacts[0].normal;
+
+            // Calcula o vetor da direção refletido
+            direcao = Vector2.Reflect(direcao, surfaceNormal);
+
+            // Adiciona uma pequena perturbação à direção refletida para variar a angulação
+            float perturbacao = Random.Range(-5f, 5f); // Variação entre -5 e 5 graus
+            direcao = Quaternion.Euler(0, 0, perturbacao) * direcao;
+
+            // Normaliza a direção para garantir que mantenha a mesma magnitude
+            direcao = direcao.normalized;
         }
         else if (collision.gameObject.CompareTag("EndWall"))
         {
@@ -87,7 +98,7 @@ public class BallController : MonoBehaviour
 
     void RebaterNaSuperficieAcumulandoForca(Vector2 normal)
     {
-        direcao = Vector2.Reflect(direcao, normal).normalized;
+        direcao = Vector2.Reflect(direcao, normal);
 
         // Aplica um ângulo extra ao rebote para aumentar a angulação
         direcao = Quaternion.Euler(0f, 0f, Random.Range(-anguloRebateExtra, anguloRebateExtra)) * direcao;
@@ -95,9 +106,9 @@ public class BallController : MonoBehaviour
         velocidadeInicial += forcaRebate; // Adiciona força de rebate
     }
 
-    void RebaterNaSuperficie(Vector2 normal)
+    void RebaterNoPaddle(Vector2 normal)
     {
-        direcao = Vector2.Reflect(direcao, normal).normalized;
+        direcao = Vector2.Reflect(direcao, normal);
 
         // Aplica um ângulo extra ao rebote para aumentar a angulação
         direcao = Quaternion.Euler(0f, 0f, Random.Range(-anguloRebateExtra, anguloRebateExtra)) * direcao;
